@@ -56,6 +56,7 @@ public class IzootoPlugin implements FlutterPlugin, MethodChannel.MethodCallHand
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         iZootoNotificationListener iZootoNotificationListener = new iZootoNotificationListener();
+        System.out.println("INIT EDITED");
         switch (call.method) {
             case iZootoConstant.AndroidINITIASE:
                 iZooto.isHybrid=true;
@@ -132,8 +133,9 @@ public class IzootoPlugin implements FlutterPlugin, MethodChannel.MethodCallHand
                 iZooto.notificationReceivedCallback(iZootoNotificationListener);
                 break;
             case iZootoConstant.iZOOTO_OPEN_NOTIFICATION:
+                System.out.println("iZOOTO_OPEN_NOTIFICATION EDITED");
                 iZootoNotificationListener.onNotificationOpened(notificationOpenedData);
-                iZooto.notificationClick(iZootoNotificationListener);
+                iZooto.notificationWebView(iZootoNotificationListener);
                 break;
             case iZootoConstant.iZOOTO_DEVICE_TOKEN:
                 iZootoNotificationListener.onTokenReceived(notificationToken);
@@ -172,10 +174,10 @@ public class IzootoPlugin implements FlutterPlugin, MethodChannel.MethodCallHand
 
         @Override
         public void onNotificationOpened(String data) {
-            notificationOpenedData = data;
+            notificationWebView = data;
             if (data!=null) {
                 try {
-                    invokeMethodOnUiThread(iZootoConstant.iZOOTO_OPEN_NOTIFICATION, data);
+                    invokeMethodOnUiThread(iZootoConstant.iZOOOTO_HANDLE_WEBVIEW, data);
                 } catch (Exception e) {
                     Log.v(iZootoConstant.PLUGIN_EXCEPTION,e.toString());
                 }
